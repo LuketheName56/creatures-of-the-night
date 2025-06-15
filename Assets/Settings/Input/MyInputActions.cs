@@ -117,6 +117,15 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Switchdash"",
+                    ""type"": ""Button"",
+                    ""id"": ""27954675-e60d-43d9-9fc8-7e27e7682ef6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -218,6 +227,28 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""004d055f-6fda-4f74-80a3-b3f977ba947a"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switchdash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cb689fcd-9208-4c16-953f-5630eb93f69e"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switchdash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -229,6 +260,7 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
         m_Character_Move = m_Character.FindAction("Move", throwIfNotFound: true);
         m_Character_Jump = m_Character.FindAction("Jump", throwIfNotFound: true);
         m_Character_Dash = m_Character.FindAction("Dash", throwIfNotFound: true);
+        m_Character_Switchdash = m_Character.FindAction("Switchdash", throwIfNotFound: true);
     }
 
     ~@MyInputActions()
@@ -312,6 +344,7 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Character_Move;
     private readonly InputAction m_Character_Jump;
     private readonly InputAction m_Character_Dash;
+    private readonly InputAction m_Character_Switchdash;
     /// <summary>
     /// Provides access to input actions defined in input action map "Character".
     /// </summary>
@@ -335,6 +368,10 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Character/Dash".
         /// </summary>
         public InputAction @Dash => m_Wrapper.m_Character_Dash;
+        /// <summary>
+        /// Provides access to the underlying input action "Character/Switchdash".
+        /// </summary>
+        public InputAction @Switchdash => m_Wrapper.m_Character_Switchdash;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -370,6 +407,9 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @Switchdash.started += instance.OnSwitchdash;
+            @Switchdash.performed += instance.OnSwitchdash;
+            @Switchdash.canceled += instance.OnSwitchdash;
         }
 
         /// <summary>
@@ -390,6 +430,9 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @Switchdash.started -= instance.OnSwitchdash;
+            @Switchdash.performed -= instance.OnSwitchdash;
+            @Switchdash.canceled -= instance.OnSwitchdash;
         }
 
         /// <summary>
@@ -451,5 +494,12 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDash(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Switchdash" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwitchdash(InputAction.CallbackContext context);
     }
 }
