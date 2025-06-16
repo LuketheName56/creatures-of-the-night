@@ -5,23 +5,25 @@ public class CharacterDashState : CharacterState
     public CharacterDashState(Character character) : base(character)
     {
     }
-
+    
     private bool IsFinishedDashing => _character.DashTimer <= 0;
-    private bool SwitchdashInputPressed => InputManager.GetSwitchdashWasPressedThisFrame();
-    private bool CanSwitchdash => _character.SwitchdashCooldown >= 0;
- 
+    private bool SwitchDashInputPressed => InputManager.GetSwitchdashWasPressedThisFrame();
+    private bool CanSwitchDash => _character.SwitchDashCooldown >= 0;
+    private Vector2 _dashDirection;
+    
     public override void StateEnter()
     {
         base.StateEnter();
         _character.InitializeDashTimers();
+        _dashDirection = _character.IsFacingRight ? Vector2.right : Vector2.left;
     }
 
     public override void StateUpdate()
     {
         base.StateUpdate();
-        if (SwitchdashInputPressed && CanSwitchdash)
+        if (SwitchDashInputPressed && CanSwitchDash)
         {
-            _stateMachine.ChangeState(_character.SwitchdashState);
+            _stateMachine.ChangeState(_character.SwitchDashState);
         }
         else if (IsFinishedDashing)
         {
@@ -32,6 +34,6 @@ public class CharacterDashState : CharacterState
     public override void StateFixedUpdate()
     {
         base.StateFixedUpdate();
-        _character.Dash();
+        _character.Dash(_dashDirection, _movementData.dashDistance/_movementData.dashDuration);
     }
 }

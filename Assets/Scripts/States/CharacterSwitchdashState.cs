@@ -1,24 +1,25 @@
 using UnityEngine;
 
-public class CharacterSwitchdashState : CharacterState
+public class CharacterSwitchDashState : CharacterState
 {
-    public CharacterSwitchdashState(Character character) : base(character)
+    public CharacterSwitchDashState(Character character) : base(character)
     {
     }
 
-    private bool IsFinishedSwitchdashing => _character.SwitchdashTimer <= 0;
+    private bool IsFinishedSwitchDashing => _character.SwitchDashTimer <= 0;
+    private Vector2 _dashDirection;
 
     public override void StateEnter()
     {
         base.StateEnter();
-        // _character.Flip();
-        _character.InitializeSwitchdashTimer();
+        _character.InitializeSwitchDashTimer();
+        _dashDirection = _character.IsFacingRight ? Vector2.left : Vector2.right;
     }
 
     public override void StateUpdate()
     {
         base.StateUpdate();
-        if (IsFinishedSwitchdashing)
+        if (IsFinishedSwitchDashing)
         {
             _stateMachine.ChangeState(_character.IdleState);
         }
@@ -27,7 +28,7 @@ public class CharacterSwitchdashState : CharacterState
     public override void StateFixedUpdate()
     {
         base.StateFixedUpdate();
-        _character.Switchdash();
+        _character.Dash(_dashDirection, _movementData.switchdashDistance/_movementData.switchdashDuration);
     }
 
     //can only be accessed in the Dash State
@@ -42,4 +43,3 @@ public class CharacterSwitchdashState : CharacterState
     //if switchdash COOLdown > 0, the dash just started and character may Enter the Switchdash state. 
 
 }
-

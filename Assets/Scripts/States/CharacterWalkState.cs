@@ -26,6 +26,6 @@ public class CharacterWalkState : CharacterState
     public override void StateFixedUpdate()
     {
         base.StateFixedUpdate();
-        _character.Move(_movementData.groundAcceleration, _movementData.groundDeceleration, InputManager.GetMovement());
+        _character.Move(InputManager.GetMovement(), _movementData.groundAcceleration, _movementData.groundDeceleration);
     }
 }
