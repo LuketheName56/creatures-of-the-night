@@ -70,3 +70,8 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Downloaded packages and assets
+/[Aa]ssets/TextMesh Pro
+/[Aa]ssets/LeanTween
+/[Pp]ackages/com.singularitygroup.hotreload
