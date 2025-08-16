@@ -34,7 +34,8 @@ public class CollectableTriggerHandler : MonoBehaviour
     {   //?
         if (other.GameObject = player)
         {
-            collectableSO.Collect(collision.gameObject);
+            collectableSO.Collect(other.gameObject);
+            Destroy(gameObject); //self destruct??
         }
 
     }
