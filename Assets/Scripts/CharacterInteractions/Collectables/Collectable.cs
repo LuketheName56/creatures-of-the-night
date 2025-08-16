@@ -10,9 +10,10 @@ public class Collectable : MonoBehaviour
         GetComponent<CircleCollider2D>().isTrigger = true;
     }
 
+//what does this do if it has no implementation and 0 refrences?
     public void Collect(GameObject objectCollected)
     {
-        
+
     }
 
 }
