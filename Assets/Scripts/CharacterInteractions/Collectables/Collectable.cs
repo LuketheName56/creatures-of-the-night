@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(CollectableTriggerHandler))]
 public class Collectable : MonoBehaviour
 {
-    [SerializeFeild] private CollectableSOBase collectableSO;
+    [SerializeField] private CollectableSOBase collectableSO;
     private void Reset()
     {
         GetComponent<CircleCollider2D>().isTrigger = true;
