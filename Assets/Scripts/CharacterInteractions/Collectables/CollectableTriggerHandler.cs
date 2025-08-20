@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class CollectableTriggerHandler : MonoBehaviour
-{
+{/*
     private GameObject player;
     private Collectable _collectable;
 
@@ -20,7 +20,7 @@ public class CollectableTriggerHandler : MonoBehaviour
             Destroy(gameObject); //self destruct??
         }
     }
-    
+*/
     /* I don't want to use layermask, since the COLLECTABLE is 
     calling the Collect method when the PLAYER runs into it. 
     Reference to player should not require LayerMask. 
