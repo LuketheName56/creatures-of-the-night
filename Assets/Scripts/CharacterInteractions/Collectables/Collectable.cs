@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
-// [RequireComponent(typeof(CollectableTriggerHandler))]
 public class Collectable : MonoBehaviour
 {
     private GameObject player;
@@ -23,6 +22,7 @@ public class Collectable : MonoBehaviour
         {
             Debug.Log("collected");
             OnCollect?.Invoke(collectableSO);
+            //SFXManager.Instance.PlaySound();
             Destroy(gameObject); //self destruct
         }
     }

@@ -13,21 +13,13 @@ public class ItemManager : MonoBehaviour
         //update UI elemnt to = orbCount
     }
     */
-    void IncrementOrbCount(CollectableSOBase collectable)
+    public void CollectItem(CollectableSOBase collectable)
     {
-        orbCount+= collectable.orbCount;
+        orbCount += collectable.OrbAmount;
         Debug.Log(orbCount + " orbs");
     }
-        
     
-    private void OnEnable()
-    {
-        Collectable.AddCollectObserver(IncrementOrbCount);
-    }
-
-    private void OnDisable()
-    {
-        Collectable.RemoveCollectObserver(IncrementOrbCount);
-    }
-
+    private void OnEnable() { Collectable.AddCollectObserver(CollectItem); }
+    private void OnDisable() { Collectable.RemoveCollectObserver(CollectItem); }
+    
 }
