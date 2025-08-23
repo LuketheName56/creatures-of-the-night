@@ -6,23 +6,27 @@ public class Collectable : MonoBehaviour
 {
     private GameObject player;
     [SerializeField] private CollectableSOBase collectableSO;
-    public static event Action<CollectableSOBase> OnCollect;
-
-    public static void AddCollectObserver(Action<CollectableSOBase> observer) { OnCollect += observer; }
-    public static void RemoveCollectObserver(Action<CollectableSOBase> observer) { OnCollect -= observer; }
+    
+    private SFXManager sfxManager;
+    private ItemManager itemManager;
     
     private void Awake()
     {
         //may replace w/ TryGetComponent
         player = GameObject.FindGameObjectWithTag("Player");
+        
+        sfxManager = ServiceLocator.Get<SFXManager>();
+        itemManager = ServiceLocator.Get<ItemManager>();
     }
+    //private void Collect()
+    //refactor??
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject == player)
         {
             Debug.Log("collected");
-            OnCollect?.Invoke(collectableSO);
-            //SFXManager.Instance.PlaySound();
+            sfxManager.PlaySound(collectableSO.CollectClip);
+            itemManager.Collect(collectableSO);
             Destroy(gameObject); //self destruct
         }
     }

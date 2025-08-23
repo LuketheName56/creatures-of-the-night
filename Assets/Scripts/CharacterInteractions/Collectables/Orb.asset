@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 290e2c0bec871964e9da059a3d266097, type: 3}
   m_Name: Orb
   m_EditorClassIdentifier: 
+  OrbAmount: 4
   CollectClip: {fileID: 8300000, guid: adcac75087a17704ca6c0c3b15bc3aa5, type: 3}
-  OrbAmount: 1
+  OrbClip: {fileID: 8300000, guid: adcac75087a17704ca6c0c3b15bc3aa5, type: 3}
