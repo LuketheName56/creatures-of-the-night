@@ -74,4 +74,5 @@ crashlytics-build.properties
 # Downloaded packages and assets
 /[Aa]ssets/TextMesh Pro
 /[Aa]ssets/LeanTween
+/[Aa]ssets/LocalAssets
 /[Pp]ackages/com.singularitygroup.hotreload
