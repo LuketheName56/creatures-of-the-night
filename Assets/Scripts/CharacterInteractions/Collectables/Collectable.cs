@@ -22,7 +22,7 @@ public class Collectable : MonoBehaviour
     //refactor??
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject == player)
+        if (other.attachedRigidbody.gameObject == player)
         {
             Debug.Log("collected");
             sfxManager.PlaySound(collectableSO.CollectClip);
