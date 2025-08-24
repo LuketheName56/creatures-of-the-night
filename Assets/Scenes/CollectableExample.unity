@@ -732,6 +732,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectableSO: {fileID: 11400000, guid: f8c3f4f8cdb530c4ca32301c09038eb6, type: 2}
+  player: {fileID: 0}
+  collectableSO: {fileID: 11400000, guid: f8c3f4f8cdb530c4ca32301c09038eb6, type: 2}
+  sfxManager: {fileID: 0}
+  itemManager: {fileID: 0}
 --- !u!58 &914179464
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1184,6 +1188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a80bf2015f648043a2cc7dbaf3fb547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  orbCount: 0
 --- !u!4 &2089784480
 Transform:
   m_ObjectHideFlags: 0
