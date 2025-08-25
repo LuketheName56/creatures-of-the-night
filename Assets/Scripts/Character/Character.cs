@@ -17,7 +17,8 @@ public class Character : MonoBehaviour
     public CharacterAirState AirState;
     public CharacterJumpState JumpState;
     public CharacterDashState DashState;
-    
+    public CharacterSwitchDashState SwitchDashState;
+
     [Header("Debug")]
     public bool ShowEnteredStateDebugLog;
     public bool ShowGroundedCollisionBox;
@@ -33,6 +34,7 @@ public class Character : MonoBehaviour
         AirState = new CharacterAirState(this);
         JumpState = new CharacterJumpState(this);
         DashState = new CharacterDashState(this);
+        SwitchDashState = new CharacterSwitchDashState(this);
     }
     
     private void Start()
@@ -73,6 +75,7 @@ public class Character : MonoBehaviour
         TickCoyoteTimeTimer();
         TickJumpApexTimer();
         TickDashTimers();
+        TickSwitchDashTimer();
     }
     
     #endregion
@@ -136,35 +139,59 @@ public class Character : MonoBehaviour
 
     public float DashTimer { get; private set; }
     public float DashCooldown { get; private set; }
+
+    //amount of time that can pass after Dash is activated before Switchdash can no longer be activated
+    public float SwitchDashCooldown { get; private set; }
+
+    //amount of time Switchdash lasts (after regular dash)
+    public float SwitchDashTimer { get; private set; }
     
-    public void ResetDashTimers()
+    public void InitializeDashTimers()
     {
         DashTimer = MovementData.dashDuration;
         DashCooldown = MovementData.dashCooldown;
+        SwitchDashCooldown = MovementData.switchdashCooldown;
     }
     
+    public void InitializeSwitchDashTimer()
+    {
+        SwitchDashTimer = MovementData.switchdashDuration;
+    }
+
     private void TickDashTimers()
     {
         if (StateMachine.CurrentState == DashState)
+        {
             DashTimer -= Time.deltaTime;
+            SwitchDashCooldown -= Time.deltaTime;
+        }
         else
             DashCooldown -= Time.deltaTime;
 
         DashTimer = Mathf.Clamp(DashTimer, 0, MovementData.dashDuration);
         DashCooldown = Mathf.Clamp(DashCooldown, 0, MovementData.dashCooldown);
+        SwitchDashCooldown = Mathf.Clamp(SwitchDashTimer, 0, MovementData.dashCooldown);
     }
     
+    private void TickSwitchDashTimer()
+    {
+        if (StateMachine.CurrentState == SwitchDashState)
+            SwitchDashTimer -= Time.deltaTime;
+        
+        SwitchDashTimer = Mathf.Clamp(SwitchDashTimer, 0, MovementData.switchdashDuration);
+    }
+
     #endregion
     
     #region Functions
     
-    public void Move(float acceleration, float deceleration, Vector2 moveInput)
+    public void Move(Vector2 direction, float acceleration, float deceleration)
     {
-        bool isMoving = Mathf.Abs(moveInput.x) > MovementData.moveThreshold;
+        bool isMoving = Mathf.Abs(direction.x) > MovementData.moveThreshold;
         if (isMoving)
         {
-            CheckForFlip(moveInput);
-            float targetVelocity = moveInput.x * MovementData.maxWalkSpeed;
+            CheckForFlip(direction);
+            float targetVelocity = direction.x * MovementData.maxWalkSpeed;
             HorizontalVelocity = Mathf.Lerp(HorizontalVelocity, targetVelocity, acceleration * Time.deltaTime);
         }
         else
@@ -173,10 +200,10 @@ public class Character : MonoBehaviour
         }
     }
     
-    public void Dash()
+    public void Dash(Vector2 direction, float velocity)
     {
-        Vector2 direction = IsFacingRight ? Vector2.right : Vector2.left;
-        HorizontalVelocity = direction.x * (MovementData.dashDistance / MovementData.dashDuration);
+        CheckForFlip(direction);
+        HorizontalVelocity = direction.x * velocity;
         SetVerticalVelocity(0);
     }
     

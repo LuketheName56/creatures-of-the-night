@@ -26,6 +26,6 @@ public class CharacterIdleState : CharacterState
     public override void StateFixedUpdate()
     {
         base.StateFixedUpdate();
-        _character.Move(_movementData.groundDeceleration, _movementData.groundDeceleration, InputManager.GetMovement());
+        _character.Move(InputManager.GetMovement(), _movementData.groundDeceleration, _movementData.groundDeceleration);
     }
 }

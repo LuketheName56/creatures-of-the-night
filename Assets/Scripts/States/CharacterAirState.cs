@@ -30,6 +30,6 @@ public class CharacterAirState : CharacterState
     {
         base.StateFixedUpdate();
         _character.AirPhysics();
-        _character.Move(_movementData.airHorizontalAcceleration, _movementData.airHorizontalDeceleration, InputManager.GetMovement());
+        _character.Move(InputManager.GetMovement(), _movementData.airHorizontalAcceleration, _movementData.airHorizontalDeceleration);
     }
 }

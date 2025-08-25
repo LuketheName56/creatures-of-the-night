@@ -16,6 +16,6 @@ public class CharacterJumpState : CharacterState
     public override void StateFixedUpdate()
     {
         base.StateFixedUpdate();
-        _character.Move(_movementData.airHorizontalAcceleration, _movementData.airHorizontalDeceleration, InputManager.GetMovement());
+        _character.Move(InputManager.GetMovement(), _movementData.airHorizontalAcceleration, _movementData.airHorizontalDeceleration);
     }
 }

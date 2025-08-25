@@ -21,6 +21,10 @@ public class CharacterMovementData : ScriptableObject
     public float dashDuration = 0.5f;
     public float dashDistance = 1.5f;
     public float dashCooldown = 1f;
+    public float switchdashDuration = .2f;
+    public float switchdashDistance = 3.5f;
+    public float switchdashCooldown = 0.15f;
+
     
     [Header("Jumping and Falling")]
     public float jumpHeight = 6.5f;
