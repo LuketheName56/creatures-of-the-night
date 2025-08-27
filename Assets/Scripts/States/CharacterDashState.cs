@@ -5,11 +5,13 @@ public class CharacterDashState : CharacterState
     public CharacterDashState(Character character) : base(character)
     {
     }
-    
     private bool IsFinishedDashing => _character.DashTimer <= 0;
     private bool SwitchDashInputPressed => InputManager.GetSwitchdashWasPressedThisFrame();
     private bool CanSwitchDash => _character.SwitchDashCooldown >= 0;
     private Vector2 _dashDirection;
+    private bool JumpInputPressed => InputManager.GetJumpWasPressedThisFrame();
+    private bool CanJumpParry => _character.CanJumpParry();
+
     
     public override void StateEnter()
     {
@@ -21,6 +23,7 @@ public class CharacterDashState : CharacterState
     public override void StateUpdate()
     {
         base.StateUpdate();
+        if (JumpInputPressed && CanJumpParry) _stateMachine.ChangeState(_character.JumpParryState);
         if (SwitchDashInputPressed && CanSwitchDash)
         {
             _stateMachine.ChangeState(_character.SwitchDashState);

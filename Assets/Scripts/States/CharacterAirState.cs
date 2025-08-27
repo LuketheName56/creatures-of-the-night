@@ -11,6 +11,8 @@ public class CharacterAirState : CharacterState
     private bool JumpInputPressed => InputManager.GetJumpWasPressedThisFrame();
     private bool JumpInputReleased => InputManager.GetJumpWasReleasedThisFrame() || _character.JumpReleasedDuringBuffer;
     private bool CanJump => _character.CanJump();
+    private bool CanJumpParry => _character.CanJumpParry();
+
     private bool DashInputPressed => InputManager.GetDashWasPressedThisFrame();
     private bool CanDash => _character.DashCooldown <= 0;
 
@@ -18,6 +20,7 @@ public class CharacterAirState : CharacterState
     {
         base.StateUpdate();
         if (DashInputPressed && CanDash) _stateMachine.ChangeState(_character.DashState);
+        if (JumpInputPressed && CanJumpParry) _stateMachine.ChangeState(_character.JumpParryState);
         else if (IsDescending && IsGrounded)
         {
             _character.Land();

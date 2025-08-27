@@ -123,13 +123,16 @@ public class Character : MonoBehaviour
     {
         float radius = .5f;
         Vector2 playerColOrigin = col.bounds.center;
-        //OverlapCircleAll???
         //~0 means check ALL layers. 
-        Collider2D otherCol = Physics2D.OverlapCircle(playerColOrigin, radius, ~0);
-        if (otherCol != null)
+        Collider2D[] otherCol = Physics2D.OverlapCircleAll(playerColOrigin, radius, ~0);
+        for (int i = 0; i < otherCol.Length; i++)
         {
-            Debug.Log("Parryable Object Collided!");
-            InParryZone = true;
+            //if (otherCol[i] != null &&  otherCol[i] is IParryable)
+            if (otherCol[i].gameObject.TryGetComponent(out IParryable parryable))
+            {
+                Debug.Log("Parryable Object Collided!");
+                InParryZone = true;
+            }
         }
         // _groundHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down,
         //     MovementData.groundDetectionRayLength, MovementData.parryableLayer);
