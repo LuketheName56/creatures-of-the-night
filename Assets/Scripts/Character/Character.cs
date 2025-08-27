@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Object = System.Object;
 
 public class Character : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class Character : MonoBehaviour
     public CharacterJumpState JumpState;
     public CharacterDashState DashState;
     public CharacterSwitchDashState SwitchDashState;
+    public CharacterJumpParryState JumpParryState;
+
 
     [Header("Debug")]
     public bool ShowEnteredStateDebugLog;
@@ -35,6 +38,7 @@ public class Character : MonoBehaviour
         JumpState = new CharacterJumpState(this);
         DashState = new CharacterDashState(this);
         SwitchDashState = new CharacterSwitchDashState(this);
+        JumpParryState = new CharacterJumpParryState(this);
     }
     
     private void Start()
@@ -86,11 +90,15 @@ public class Character : MonoBehaviour
     public bool IsGrounded { get; private set; }
     private RaycastHit2D _ceilingHit;
     public bool IsTouchingCeiling { get; private set; }
-    
+    public bool InParryZone { get; private set; }
+    public bool AttackParried { get; private set; }
+
+
     public void CollisionChecks()
     {
         CheckForGrounded();
         CheckForCeiling();
+        CheckForParryableObject();
     }
 
     public void CheckForGrounded()
@@ -109,6 +117,24 @@ public class Character : MonoBehaviour
             Debug.DrawRay(new Vector2(boxCastOrigin.x - boxCastSize.x / 2, boxCastOrigin.y - MovementData.groundDetectionRayLength), Vector2.right * boxCastSize.x, rayColor);
         }
         #endregion
+    }
+
+    public void CheckForParryableObject()
+    {
+        float radius = .5f;
+        Vector2 playerColOrigin = col.bounds.center;
+        //OverlapCircleAll???
+        //~0 means check ALL layers. 
+        Collider2D otherCol = Physics2D.OverlapCircle(playerColOrigin, radius, ~0);
+        if (otherCol != null)
+        {
+            Debug.Log("Parryable Object Collided!");
+            InParryZone = true;
+        }
+        // _groundHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down,
+        //     MovementData.groundDetectionRayLength, MovementData.parryableLayer);
+        
+        //
     }
 
     public void CheckForCeiling()
@@ -224,6 +250,7 @@ public class Character : MonoBehaviour
     #region Jumping and Falling
 
     public bool IsJumping { get; private set; }
+    public bool IsJumpParrying { get; private set; }
     public bool IsFastFalling { get; private set; }
     public float JumpBufferTimer { get; set; }
     public bool JumpReleasedDuringBuffer { get; set; }
@@ -236,6 +263,9 @@ public class Character : MonoBehaviour
     #region Checks
     
     public bool CanJump() => !IsJumping && !IsFastFalling && (IsGrounded || CoyoteTimer > 0f);
+    
+    //why doesn't this check if they pressed it this frame??
+    public bool CanJumpParry() => !IsJumpParrying && InParryZone;
 
     #endregion
 
@@ -316,6 +346,15 @@ public class Character : MonoBehaviour
         IsJumping = false;
         IsFastFalling = false;
     }
+    
+    public void JumpParry()
+    {
+        SetVerticalVelocity(MovementData.InitialJumpVelocity);
+        IsJumpParrying = true;
+        IsFastFalling = false;
+        //JumpParryBufferTimer = 0;
+    }
+
     
     public void AirPhysics()
     {

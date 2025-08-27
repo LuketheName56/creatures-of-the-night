@@ -6,6 +6,7 @@ public class CharacterMovementData : ScriptableObject
 {
     [Header("Grounded/Collisions Checks")]
     public LayerMask groundLayer;
+    public LayerMask parryableLayer;
     [Range(0.5f, 1f)] public float groundDetectionRayWidth = 1f;
     public float groundDetectionRayLength = 0.02f;
     [Range(0.5f, 1f)] public float ceilingDetectionRayWidth = 1f;
@@ -19,7 +20,7 @@ public class CharacterMovementData : ScriptableObject
 
     [Header("Dashing")]
     public float dashDuration = 0.5f;
-    public float dashDistance = 1.5f;
+    public float dashDistance = 1.0f;
     public float dashCooldown = 1f;
     public float switchdashDuration = .2f;
     public float switchdashDistance = 3.5f;
