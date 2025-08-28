@@ -20,7 +20,7 @@ public class CharacterAirState : CharacterState
     {
         base.StateUpdate();
         if (DashInputPressed && CanDash) _stateMachine.ChangeState(_character.DashState);
-        if (JumpInputPressed && CanJumpParry) _stateMachine.ChangeState(_character.JumpParryState);
+        else if (JumpInputPressed && CanJumpParry) _stateMachine.ChangeState(_character.JumpParryState);
         else if (IsDescending && IsGrounded)
         {
             _character.Land();

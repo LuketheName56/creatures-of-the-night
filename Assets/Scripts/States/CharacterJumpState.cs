@@ -19,7 +19,7 @@ public class CharacterJumpState : CharacterState
     public override void StateUpdate()
     {
         base.StateUpdate();
-        if (JumpInputPressed && CanJumpParry) _stateMachine.ChangeState(_character.JumpParryState);
+        // if (JumpInputPressed && CanJumpParry) _stateMachine.ChangeState(_character.JumpParryState);
     }
 
     public override void StateFixedUpdate()

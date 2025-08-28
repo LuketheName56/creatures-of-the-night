@@ -123,21 +123,19 @@ public class Character : MonoBehaviour
     {
         float radius = .5f;
         Vector2 playerColOrigin = col.bounds.center;
-        //~0 means check ALL layers. 
         Collider2D[] otherCol = Physics2D.OverlapCircleAll(playerColOrigin, radius, ~0);
+        InParryZone = false;
         for (int i = 0; i < otherCol.Length; i++)
         {
-            //if (otherCol[i] != null &&  otherCol[i] is IParryable)
             if (otherCol[i].gameObject.TryGetComponent(out IParryable parryable))
             {
-                Debug.Log("Parryable Object Collided!");
-                InParryZone = true;
+                // if (parryable.ParryableNow)
+                // {
+                    Debug.Log("Parryable Object Collided!");
+                    InParryZone = true;
+                // }
             }
         }
-        // _groundHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down,
-        //     MovementData.groundDetectionRayLength, MovementData.parryableLayer);
-        
-        //
     }
 
     public void CheckForCeiling()
@@ -253,7 +251,7 @@ public class Character : MonoBehaviour
     #region Jumping and Falling
 
     public bool IsJumping { get; private set; }
-    public bool IsJumpParrying { get; private set; }
+    // public bool IsJumpParrying { get; private set; }
     public bool IsFastFalling { get; private set; }
     public float JumpBufferTimer { get; set; }
     public bool JumpReleasedDuringBuffer { get; set; }
@@ -268,7 +266,8 @@ public class Character : MonoBehaviour
     public bool CanJump() => !IsJumping && !IsFastFalling && (IsGrounded || CoyoteTimer > 0f);
     
     //why doesn't this check if they pressed it this frame??
-    public bool CanJumpParry() => !IsJumpParrying && InParryZone;
+    // public bool CanJumpParry() => !IsJumpParrying && InParryZone;
+    public bool CanJumpParry() => InParryZone;
 
     #endregion
 
@@ -353,7 +352,7 @@ public class Character : MonoBehaviour
     public void JumpParry()
     {
         SetVerticalVelocity(MovementData.InitialJumpVelocity);
-        IsJumpParrying = true;
+        // IsJumpParrying = true;
         IsFastFalling = false;
         //JumpParryBufferTimer = 0;
     }
